@@ -47,7 +47,7 @@ Every tool choice, including the ones considered and rejected, is recorded in [`
 ## Key results
 
 - **Two platforms, identical answers.** Snowflake with dbt and AWS Glue with Spark both report **14,505** valid facilities and **r = −0.08** between occupancy and nurse staffing, from independent implementations of the same definitions ([ADR-018](docs/decisions.md)).
-- **Readmissions:** the median facility rehospitalizes **23.1%** of short-stay residents (claims measure, risk-adjusted); the median SNF VBP 30-day readmission rate is **20.0%**.
+- **Readmissions:** the median facility rehospitalizes **23.1%** of short-stay residents (claims measure); the median SNF VBP 30-day readmission rate is **20.0%**.
 - **Staffing in plain terms:** at the median facility, each licensed nurse on duty covers about **16.6 residents** at any given moment.
 - **Complaints:** the median facility has **2.9 substantiated complaints per 100 residents**.
 
@@ -55,7 +55,7 @@ Every tool choice, including the ones considered and rejected, is recorded in [`
 
 - **Every job checks its own output** and fails the workflow on any violation: no empty tables, unique non-null keys in silver and gold, and no missing source files ([ADR-016](docs/decisions.md)).
 - **Silent failures are caught too:** the Quality of Care mart fails the run if its readmission columns come back empty, for example after a CMS measure code change.
-- **Cross-checked against Snowflake:** row counts and headline metrics match the first project ([ADR-018](docs/decisions.md)).
+- **Cross-checked against Snowflake (parallel project):** row counts and headline metrics match the first project ([ADR-018](docs/decisions.md)).
 - **Tested before deployment:** every Glue job was run locally on Spark 3.5 (the Glue 5.0 engine) before going to AWS.
 
 ## Security
