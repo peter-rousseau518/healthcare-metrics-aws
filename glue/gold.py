@@ -263,11 +263,54 @@ where q.score is not null
 group by m.resident_type, q.measure_code, m.measure_description, q.quarter_number
 """
 
+# Quality of Care page (ADR-015). One row per facility-quarter. Readmissions,
+# complaints, and PBJ staffing cover different periods; the dashboard says so.
+MARTS["mart_quality_of_care"] = """
+with rehosp as (
+    -- Claims measure 521: percentage of short-stay residents rehospitalized
+    -- after a nursing home admission (risk-adjusted). Lower is better.
+    select ccn,
+           adjusted_score  as short_stay_rehosp_pct,
+           observed_score  as short_stay_rehosp_observed_pct,
+           measure_period  as rehosp_measure_period
+    from cms_silver.nh_quality_measures_claims
+    where measure_code = '521'
+),
+vbp as (
+    -- SNF VBP risk-standardized readmission rate, performance period FY 2022.
+    -- Stored as a fraction in the source; expressed here as a percentage.
+    select ccn,
+           case when performance_readmission_rate <= 1.5
+                then performance_readmission_rate * 100
+                else performance_readmission_rate end as vbp_readmission_rate_pct
+    from cms_silver.snf_vbp_facility_performance
+)
+select
+    s.ccn, s.calendar_quarter, s.provider_name, s.state,
+    s.ownership_group, s.provider_type, s.facility_setting,
+    s.is_valid_for_analysis, s.certified_beds, s.avg_daily_census,
+    s.rn_hprd, s.licensed_nurse_hprd, s.total_nurse_hprd,
+    24 / nullif(s.licensed_nurse_hprd, 0)                        as residents_per_licensed_nurse,
+    24 / nullif(s.total_nurse_hprd, 0)                           as residents_per_nursing_staff,
+    f.substantiated_complaints, f.facility_reported_incidents,
+    f.avg_residents_per_day,
+    f.substantiated_complaints * 100.0 / nullif(f.avg_residents_per_day, 0) as complaints_per_100_residents,
+    r.short_stay_rehosp_pct, r.short_stay_rehosp_observed_pct, r.rehosp_measure_period,
+    v.vbp_readmission_rate_pct,
+    s.overall_rating, s.staffing_rating,
+    s.facility_quarter_key
+from mart_facility_staffing s
+inner join dim_facility f on f.ccn = s.ccn
+left join rehosp r on r.ccn = s.ccn
+left join vbp v on v.ccn = s.ccn
+"""
+
 KEYS = {
     "dim_facility": "ccn", "fct_daily_staffing": "facility_day_key", "mart_facility_staffing": "facility_quarter_key",
     "mart_staffing_occupancy_correlation": "correlation_key", "mart_staffing_by_state_and_type": "state_type_key",
     "mart_daily_staffing_trend": "date_state_key", "dim_measure": "measure_code",
     "fct_quality_measure_quarters": "facility_measure_quarter_key", "mart_stay_type_quality_trend": "measure_quarter_key",
+    "mart_quality_of_care": "facility_quarter_key",
 }
 
 for name, sql in MARTS.items():
@@ -281,3 +324,11 @@ for name, sql in MARTS.items():
     if dups or nulls:
         raise RuntimeError(f"gold {name}: key {key} has {dups} duplicates and {nulls} nulls")
     spark.table(f"cms_gold.{name}").createOrReplaceTempView(name)
+
+# The readmission columns come from left joins, so a changed measure code would
+# silently leave them empty. Fail the run instead.
+filled = spark.sql("select count(short_stay_rehosp_pct) r, count(vbp_readmission_rate_pct) v "
+                   "from cms_gold.mart_quality_of_care").first()
+if filled["r"] == 0 or filled["v"] == 0:
+    raise RuntimeError(f"gold mart_quality_of_care: readmission columns empty "
+                       f"(claims rows: {filled['r']}, VBP rows: {filled['v']}); check measure code 521")
