@@ -50,7 +50,7 @@ This project builds the CMS nursing home pipeline entirely on AWS, from a Google
 
 ## ADR-004: Ingestion as a Glue Python job using the Google Drive API
 
-**Status:** Built and tested locally on Spark 3.5.4 (the Glue 5.0 engine)
+**Status:** Implemented (tested locally on Spark 3.5.4, the Glue 5.0 engine, then deployed)
 
 **Decision:** A Glue Python shell job lists the Drive folder, downloads each CSV, and writes it to `landing/release=YYYY-MM/`. It records each file's Drive checksum and skips unchanged files.
 
@@ -62,7 +62,7 @@ This project builds the CMS nursing home pipeline entirely on AWS, from a Google
 
 ## ADR-005: Serverless lakehouse: S3, Glue Data Catalog, Athena
 
-**Status:** In progress
+**Status:** Implemented
 
 **Context:** Under 1 GB of data, refreshed monthly (Care Compare) and quarterly (PBJ).
 
@@ -86,7 +86,7 @@ This project builds the CMS nursing home pipeline entirely on AWS, from a Google
 
 ## ADR-007: One bronze Glue job per table, from a shared script
 
-**Status:** Built and tested locally on Spark 3.5.4 (the Glue 5.0 engine)
+**Status:** Implemented (tested locally on Spark 3.5.4, the Glue 5.0 engine, then deployed)
 
 **Decision:** 21 bronze jobs, one per source table, all running the same PySpark script with a table parameter. Each converts its CSV to Parquet, keeps every column as text, adds lineage columns, and registers the table in the catalog. A config file lists the tables, and CloudFormation creates one job per entry.
 
@@ -98,7 +98,7 @@ This project builds the CMS nursing home pipeline entirely on AWS, from a Google
 
 ## ADR-008: One silver job and one gold job, written in Spark SQL
 
-**Status:** Built and tested locally on Spark 3.5.4 (the Glue 5.0 engine)
+**Status:** Implemented (tested locally on Spark 3.5.4, the Glue 5.0 engine, then deployed)
 
 **Decision:** A single Glue job builds all silver tables, and a single Glue job builds all gold marts, each running SQL files through Spark SQL. Conventions and metric definitions match the Snowflake project's dbt models.
 
@@ -110,9 +110,9 @@ This project builds the CMS nursing home pipeline entirely on AWS, from a Google
 
 ## ADR-009: Glue Workflow for scheduling and orchestration
 
-**Status:** Built and tested locally on Spark 3.5.4 (the Glue 5.0 engine)
+**Status:** Implemented (tested locally on Spark 3.5.4, the Glue 5.0 engine, then deployed)
 
-**Decision:** A Glue Workflow starts on a monthly schedule and chains: ingest → 21 bronze jobs in parallel → silver (once all bronze jobs succeed) → gold → data quality. A failure stops downstream steps.
+**Decision:** A Glue Workflow starts on a monthly schedule and chains: ingest → 21 bronze jobs in parallel → silver (once all bronze jobs succeed) → gold, 24 jobs in all. Each job runs its own essential data checks (ADR-016), and a failure stops downstream steps.
 
 **Alternatives considered:** Step Functions with EventBridge (more general, but a second service to operate); Amazon MWAA, managed Airflow (a continuously running environment costs more than this pipeline needs).
 
@@ -132,11 +132,13 @@ This project builds the CMS nursing home pipeline entirely on AWS, from a Google
 
 ## ADR-011: Dashboard on Streamlit Community Cloud, querying Athena
 
-**Status:** Planned
+**Status:** Implemented. Live at [healthcare-metrics-aws-ad4ahjn3zgikdyxnkpad9g.streamlit.app](https://healthcare-metrics-aws-ad4ahjn3zgikdyxnkpad9g.streamlit.app/)
 
 **Decision:** The Streamlit dashboard is hosted free on Streamlit Community Cloud and queries the gold layer through Athena. It authenticates as a dedicated IAM user that can only run queries in the `cms_lakehouse` workgroup, read `gold/`, and write query results. Its access keys are stored only in Streamlit's secrets.
 
 **Alternatives considered:** AWS App Runner (fully AWS, keyless through an IAM role, but a monthly cost); Amazon QuickSight (per-user licensing).
+
+**Implementation:** The app is the Snowflake project's dashboard with only its connection replaced: it uses PyAthena, and the gold tables keep the same names and columns as the Snowflake marts, so every page and metric definition carries over unchanged. Query results are cached for 24 hours, since the data changes monthly and each Athena query is billed by data scanned.
 
 **Consequences:** Free hosting and a public link. Long-lived access keys are the tradeoff, mitigated by narrow permissions and rotation.
 
@@ -144,7 +146,7 @@ This project builds the CMS nursing home pipeline entirely on AWS, from a Google
 
 ## ADR-012: Infrastructure as code with CloudFormation
 
-**Status:** Implemented (foundation stack)
+**Status:** Implemented (foundation and pipeline stacks)
 
 **Decision:** All AWS resources are defined in CloudFormation templates in `infrastructure/cloudformation/`, validated with `cfn-lint`, and deployed from the console.
 
@@ -166,7 +168,7 @@ This project builds the CMS nursing home pipeline entirely on AWS, from a Google
 
 ## ADR-014: Least-privilege identities
 
-**Status:** In progress
+**Status:** Implemented
 
 **Decision:**
 - `cms-lakehouse-glue-role`: read/write on the lakehouse bucket and read on the Google key secret, plus standard Glue permissions.
@@ -179,7 +181,7 @@ This project builds the CMS nursing home pipeline entirely on AWS, from a Google
 
 ## ADR-015: Quality of Care page scope
 
-**Status:** Planned
+**Status:** Implemented
 
 **Decision:**
 - **30-day readmissions** by facility and state: the claims-based rehospitalization measure for short-stay residents (primary) and the SNF VBP risk-standardized readmission rate (secondary).
@@ -187,7 +189,11 @@ This project builds the CMS nursing home pipeline entirely on AWS, from a Google
 - **Staffing vs. readmissions:** rank correlation and banded averages between PBJ nurse hours per resident day and readmission rates.
 - **Not included:** patient satisfaction (nursing home Care Compare has no satisfaction survey) and readmissions by diagnosis category (requires patient-level claims data that isn't public).
 
-**Consequences:** Every metric on the page is supported by the data. The page notes that readmissions, complaints, and staffing cover different periods.
+**Implementation:** The gold job builds `mart_quality_of_care`, one row per facility and quarter. It joins the staffing mart and `dim_facility` (complaints, residents) to claims measure 521 (the risk-adjusted percentage of short-stay residents rehospitalized after a nursing home admission) and the SNF VBP FY 2022 readmission rate, both from silver. Readmissions use left joins, so facilities without a published rate keep their staffing and complaint data. Because a changed measure code would silently leave the readmission columns empty, the job fails if either column has no values.
+
+**Results:** Of 14,505 valid facilities, 11,785 have a claims rehospitalization rate and 10,562 a VBP rate; CMS suppresses rates for facilities with too few cases. Medians: 23.1% (claims), 20.0% (VBP), 16.6 residents per licensed nurse on duty, and 2.9 substantiated complaints per 100 residents.
+
+**Consequences:** Every metric on the page is supported by the data. The page notes that readmissions, complaints, and staffing cover different periods, and that correlation does not show cause.
 
 ---
 
@@ -197,7 +203,7 @@ This project builds the CMS nursing home pipeline entirely on AWS, from a Google
 
 **Context:** The project had a fixed deadline.
 
-**Decision:** The first release includes ingestion, all 21 bronze tables, five silver tables (provider info, PBJ staffing, both quality measure tables, SNF VBP), the nine gold marts the dashboard uses, and the Glue Workflow. Glue Data Quality rulesets are deferred; instead, each job enforces essential checks itself and fails the workflow on any violation: no empty tables, unique keys in silver and gold, and no missing source files. The Quality of Care page follows in the next release.
+**Decision:** The first release includes ingestion, all 21 bronze tables, five silver tables (provider info, PBJ staffing, both quality measure tables, SNF VBP), the nine gold marts the dashboard uses, and the Glue Workflow. Glue Data Quality rulesets are deferred; instead, each job enforces essential checks itself and fails the workflow on any violation: no empty tables, unique keys in silver and gold, and no missing source files. The Quality of Care page followed as a second release, adding a tenth gold mart (ADR-015).
 
 **Consequences:** A complete, scheduled, end-to-end pipeline delivered first, with a documented path to the full scope.
 
@@ -212,3 +218,17 @@ This project builds the CMS nursing home pipeline entirely on AWS, from a Google
 **Decision:** Bronze converts every header to snake_case (`cms_certification_number_ccn`) and otherwise keeps values exactly as received, as text. This differs from the Snowflake project, where raw kept the original headers and staging renamed them.
 
 **Consequences:** Every layer is queryable in Athena. Silver maps from the snake_case names using the same column specifications as the dbt staging models.
+
+---
+
+## ADR-018: Cross-platform validation against the Snowflake project
+
+**Status:** Implemented
+
+**Context:** The two projects use different engines for every step after landing: Snowflake with dbt there, Glue with Spark SQL here. Matching results would show both pipelines apply the same definitions correctly; differences would expose a bug in one of them.
+
+**Decision:** Compare headline results between the two projects after each full build, starting with the staffing-occupancy correlation mart.
+
+**Result:** Identical. Both platforms report **14,505** valid facilities and a national correlation of **r = −0.08** between occupancy and licensed-nurse hours per resident day. Row counts also line up: 14,814 facilities in `dim_facility` and 1,323,777 facility-days in `fct_daily_staffing` (about 14,500 facilities × 91 days in Q2 2024; PBJ rows for facilities no longer on the provider list are excluded, as in the Snowflake project).
+
+**Consequences:** Strong evidence that both pipelines are correct, from two independent implementations. The comparison is a manual query today; automating it is a candidate next step.
