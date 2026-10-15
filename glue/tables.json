@@ -1,0 +1,26 @@
+{
+  "_comment": "Source tables: name, file-name pattern in the Drive folder, and text encoding. Read by the ingest job and by tools/generate_pipeline.py.",
+  "tables": [
+    {"name": "nh_provider_info",                     "pattern": "^NH_ProviderInfo_.*\\.csv$",                 "encoding": "UTF-8"},
+    {"name": "nh_ownership",                         "pattern": "^NH_Ownership_.*\\.csv$",                    "encoding": "UTF-8"},
+    {"name": "nh_penalties",                         "pattern": "^NH_Penalties_.*\\.csv$",                    "encoding": "UTF-8"},
+    {"name": "nh_health_citations",                  "pattern": "^NH_HealthCitations_.*\\.csv$",              "encoding": "UTF-8"},
+    {"name": "nh_fire_safety_citations",             "pattern": "^NH_FireSafetyCitations_.*\\.csv$",          "encoding": "UTF-8"},
+    {"name": "nh_citation_descriptions",             "pattern": "^NH_CitationDescriptions_.*\\.csv$",         "encoding": "UTF-8"},
+    {"name": "nh_survey_dates",                      "pattern": "^NH_SurveyDates_.*\\.csv$",                  "encoding": "UTF-8"},
+    {"name": "nh_survey_summary",                    "pattern": "^NH_SurveySummary_.*\\.csv$",                "encoding": "UTF-8"},
+    {"name": "nh_quality_measures_mds",              "pattern": "^NH_QualityMsr_MDS_.*\\.csv$",               "encoding": "UTF-8"},
+    {"name": "nh_quality_measures_claims",           "pattern": "^NH_QualityMsr_Claims_.*\\.csv$",            "encoding": "UTF-8"},
+    {"name": "nh_state_us_averages",                 "pattern": "^NH_StateUSAverages_.*\\.csv$",              "encoding": "UTF-8"},
+    {"name": "nh_health_inspection_cutpoints_state", "pattern": "^NH_HlthInspecCutpointsState_.*\\.csv$",     "encoding": "UTF-8"},
+    {"name": "nh_data_collection_intervals",         "pattern": "^NH_DataCollectionIntervals_.*\\.csv$",      "encoding": "UTF-8"},
+    {"name": "nh_covid_vax_provider",                "pattern": "^NH_CovidVaxProvider_.*\\.csv$",             "encoding": "UTF-8"},
+    {"name": "nh_covid_vax_averages",                "pattern": "^NH_CovidVaxAverages_.*\\.csv$",             "encoding": "UTF-8"},
+    {"name": "snf_vbp_facility_performance",         "pattern": "^FY_[0-9]{4}_SNF_VBP_Facility_Performance\\.csv$",  "encoding": "UTF-8"},
+    {"name": "snf_vbp_aggregate_performance",        "pattern": "^FY_[0-9]{4}_SNF_VBP_Aggregate_Performance\\.csv$", "encoding": "UTF-8"},
+    {"name": "snf_qrp_provider",                     "pattern": "^Skilled_Nursing_Facility_Quality_Reporting_Program_Provider_Data_.*\\.csv$", "encoding": "UTF-8"},
+    {"name": "snf_qrp_national",                     "pattern": "^Skilled_Nursing_Facility_Quality_Reporting_Program_National_Data_.*\\.csv$", "encoding": "UTF-8"},
+    {"name": "swing_bed_snf",                        "pattern": "^Swing_Bed_SNF_data_.*\\.csv$",              "encoding": "UTF-8"},
+    {"name": "pbj_daily_nurse_staffing",             "pattern": "^PBJ_Daily_Nurse_Staffing_.*\\.csv$",        "encoding": "ISO-8859-1"}
+  ]
+}

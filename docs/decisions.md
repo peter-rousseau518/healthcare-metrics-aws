@@ -34,13 +34,15 @@ This project builds the CMS nursing home pipeline entirely on AWS, from a Google
 
 ## ADR-003: Google service account, with its key in AWS Secrets Manager
 
-**Status:** In progress
+**Status:** Implemented
 
 **Context:** Ingestion must run unattended on a schedule. Personal Google OAuth in "testing" mode expires about every 7 days.
 
 **Decision:** A Google service account is given read-only (Viewer) access to the Drive folder. Its JSON key is stored in AWS Secrets Manager (`cms/google-drive-service-account`), readable only by the Glue job role.
 
-**Alternatives considered:** Personal OAuth (expires); publishing the OAuth app (requires Google verification for Drive scopes); a key file in the repository (insecure).
+**Alternatives considered:** Personal OAuth (expires); publishing the OAuth app (requires Google verification for Drive scopes); a key file in the repository (insecure); keyless Workload Identity Federation from the Glue role (the strongest option, but more setup).
+
+**Note:** The Google Cloud organization enforces "secure by default" policies that block service account keys. The block was overridden for this one project only (`iam.disableServiceAccountKeyCreation`), leaving the rest of the organization protected. Workload Identity Federation would remove the key entirely and is the recommended next step.
 
 **Consequences:** Ingestion needs no human sign-in. The key never appears in code, logs, or the repository, and it can be rotated in Secrets Manager without code changes.
 
@@ -48,7 +50,7 @@ This project builds the CMS nursing home pipeline entirely on AWS, from a Google
 
 ## ADR-004: Ingestion as a Glue Python job using the Google Drive API
 
-**Status:** Planned
+**Status:** Built and tested locally on Spark 3.5.4 (the Glue 5.0 engine)
 
 **Decision:** A Glue Python shell job lists the Drive folder, downloads each CSV, and writes it to `landing/release=YYYY-MM/`. It records each file's Drive checksum and skips unchanged files.
 
@@ -84,7 +86,7 @@ This project builds the CMS nursing home pipeline entirely on AWS, from a Google
 
 ## ADR-007: One bronze Glue job per table, from a shared script
 
-**Status:** Planned
+**Status:** Built and tested locally on Spark 3.5.4 (the Glue 5.0 engine)
 
 **Decision:** 21 bronze jobs, one per source table, all running the same PySpark script with a table parameter. Each converts its CSV to Parquet, keeps every column as text, adds lineage columns, and registers the table in the catalog. A config file lists the tables, and CloudFormation creates one job per entry.
 
@@ -96,7 +98,7 @@ This project builds the CMS nursing home pipeline entirely on AWS, from a Google
 
 ## ADR-008: One silver job and one gold job, written in Spark SQL
 
-**Status:** Planned
+**Status:** Built and tested locally on Spark 3.5.4 (the Glue 5.0 engine)
 
 **Decision:** A single Glue job builds all silver tables, and a single Glue job builds all gold marts, each running SQL files through Spark SQL. Conventions and metric definitions match the Snowflake project's dbt models.
 
@@ -108,7 +110,7 @@ This project builds the CMS nursing home pipeline entirely on AWS, from a Google
 
 ## ADR-009: Glue Workflow for scheduling and orchestration
 
-**Status:** Planned
+**Status:** Built and tested locally on Spark 3.5.4 (the Glue 5.0 engine)
 
 **Decision:** A Glue Workflow starts on a monthly schedule and chains: ingest → 21 bronze jobs in parallel → silver (once all bronze jobs succeed) → gold → data quality. A failure stops downstream steps.
 
@@ -120,7 +122,7 @@ This project builds the CMS nursing home pipeline entirely on AWS, from a Google
 
 ## ADR-010: Data quality with Glue Data Quality rules
 
-**Status:** Planned
+**Status:** Deferred (lean scope, ADR-016)
 
 **Decision:** Rulesets written in Glue's Data Quality Definition Language (DQDL) check key uniqueness, completeness, valid values, and row counts, mirroring the Snowflake project's dbt tests. A failed check fails the workflow.
 
@@ -186,3 +188,27 @@ This project builds the CMS nursing home pipeline entirely on AWS, from a Google
 - **Not included:** patient satisfaction (nursing home Care Compare has no satisfaction survey) and readmissions by diagnosis category (requires patient-level claims data that isn't public).
 
 **Consequences:** Every metric on the page is supported by the data. The page notes that readmissions, complaints, and staffing cover different periods.
+
+---
+
+## ADR-016: Lean first release
+
+**Status:** Implemented
+
+**Context:** The project had a fixed deadline.
+
+**Decision:** The first release includes ingestion, all 21 bronze tables, five silver tables (provider info, PBJ staffing, both quality measure tables, SNF VBP), the nine gold marts the dashboard uses, and the Glue Workflow. Glue Data Quality rulesets are deferred; instead, each job enforces essential checks itself and fails the workflow on any violation: no empty tables, unique keys in silver and gold, and no missing source files. The Quality of Care page follows in the next release.
+
+**Consequences:** A complete, scheduled, end-to-end pipeline delivered first, with a documented path to the full scope.
+
+---
+
+## ADR-017: Bronze column names in snake_case
+
+**Status:** Implemented
+
+**Context:** CMS headers contain spaces and punctuation (`CMS Certification Number (CCN)`). Parquet files and Athena don't accept these in column names.
+
+**Decision:** Bronze converts every header to snake_case (`cms_certification_number_ccn`) and otherwise keeps values exactly as received, as text. This differs from the Snowflake project, where raw kept the original headers and staging renamed them.
+
+**Consequences:** Every layer is queryable in Athena. Silver maps from the snake_case names using the same column specifications as the dbt staging models.
