@@ -1,0 +1,154 @@
+<mxfile host="app.diagrams.net" type="device">
+  <diagram name="AWS Architecture" id="aws-arch-v2">
+    <mxGraphModel dx="1800" dy="960" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1800" pageHeight="960" background="#F7F9FC" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="aws" value="AWS Cloud (us-east-1)" style="rounded=1;arcSize=3;whiteSpace=wrap;html=1;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#FF9900;strokeWidth=2.5;verticalAlign=top;align=right;spacingTop=8;spacingLeft=14;fontSize=15;fontStyle=1;fontColor=#B36B00;" vertex="1" parent="1">
+          <mxGeometry x="270" y="130" width="1170" height="650" as="geometry" />
+        </mxCell>
+        <mxCell id="wf" value="AWS Glue Workflow: scheduling and orchestration" style="rounded=1;arcSize=3;whiteSpace=wrap;html=1;fontFamily=Helvetica;fillColor=#F3EEFC;strokeColor=#7B4FC9;strokeWidth=1.5;verticalAlign=top;align=center;spacingTop=8;spacingLeft=14;fontSize=15;fontStyle=1;fontColor=#4B2A8C;" vertex="1" parent="1">
+          <mxGeometry x="515" y="170" width="900" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="lake" value="Amazon S3: Lakehouse bucket (peter-cms-lakehouse-2026)" style="rounded=1;arcSize=3;whiteSpace=wrap;html=1;fontFamily=Helvetica;fillColor=#FAFBFD;strokeColor=#3F8F4E;strokeWidth=1.5;verticalAlign=top;align=center;spacingTop=8;spacingLeft=14;fontSize=15;fontStyle=1;fontColor=#2E6B3A;" vertex="1" parent="1">
+          <mxGeometry x="515" y="350" width="900" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="cross" value="Cross-cutting" style="rounded=1;arcSize=3;whiteSpace=wrap;html=1;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#CBD2D9;strokeWidth=1.5;verticalAlign=top;align=left;spacingTop=8;spacingLeft=14;fontSize=15;fontStyle=1;fontColor=#7B8794;" vertex="1" parent="1">
+          <mxGeometry x="270" y="805" width="1170" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="Healthcare Metrics on AWS: End-to-End Architecture" style="text;whiteSpace=wrap;html=1;fontFamily=Helvetica;align=left;verticalAlign=middle;fontSize=26;fontColor=#1F2933;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="1200" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="CMS nursing home data from Google Drive to a live dashboard: ingested, transformed, scheduled, and orchestrated with AWS Glue" style="text;whiteSpace=wrap;html=1;fontFamily=Helvetica;align=left;verticalAlign=middle;fontSize=14;fontColor=#4A5563;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="64" width="1500" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="hdr0" value="SOURCE" style="text;whiteSpace=wrap;html=1;fontFamily=Helvetica;align=center;verticalAlign=middle;fontSize=12;fontColor=#7B8794;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="104" width="140" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="hdr1" value="AWS CLOUD" style="text;whiteSpace=wrap;html=1;fontFamily=Helvetica;align=center;verticalAlign=middle;fontSize=12;fontColor=#7B8794;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="795" y="104" width="140" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="hdr2" value="DASHBOARD &amp; USERS" style="text;whiteSpace=wrap;html=1;fontFamily=Helvetica;align=center;verticalAlign=middle;fontSize=12;fontColor=#7B8794;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1555" y="104" width="140" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="drive" value="&lt;b style=&quot;font-size:14px&quot;&gt;Google Drive&lt;/b&gt;&lt;font color=&quot;#4A5563&quot;&gt;&lt;br&gt;Peter's folder · 22 files&lt;br&gt;20 Care Compare CSVs&lt;br&gt;PBJ daily staffing CSV&lt;br&gt;data dictionary&lt;/font&gt;" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#9AA4B2;fontColor=#1F2933;fontSize=12;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="30" y="330" width="200" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="secrets" value="&lt;b style=&quot;font-size:14px&quot;&gt;AWS Secrets Manager&lt;/b&gt;&lt;font color=&quot;#4A5563&quot;&gt;&lt;br&gt;Google service account&lt;br&gt;key (JSON)&lt;/font&gt;" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Helvetica;fillColor=#FCE8F1;strokeColor=#C2457A;fontColor=#1F2933;fontSize=12;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="295" y="200" width="195" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="w0" value="&lt;b style=&quot;font-size:12px&quot;&gt;0 · Schedule&lt;/b&gt;&lt;font color=&quot;#4A5563&quot;&gt;&lt;br&gt;monthly cron trigger&lt;/font&gt;" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#7B4FC9;fontColor=#1F2933;fontSize=12;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="528" y="207" width="135" height="98" as="geometry" />
+        </mxCell>
+        <mxCell id="w1" value="&lt;b style=&quot;font-size:12px&quot;&gt;1 · Ingest job&lt;/b&gt;&lt;font color=&quot;#4A5563&quot;&gt;&lt;br&gt;Python · Drive API → landing&lt;/font&gt;" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#7B4FC9;fontColor=#1F2933;fontSize=12;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="675" y="207" width="135" height="98" as="geometry" />
+        </mxCell>
+        <mxCell id="w2" value="&lt;b style=&quot;font-size:12px&quot;&gt;2 · Bronze jobs ×21&lt;/b&gt;&lt;font color=&quot;#4A5563&quot;&gt;&lt;br&gt;one per table, CSV → Parquet&lt;/font&gt;" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#7B4FC9;fontColor=#1F2933;fontSize=12;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="822" y="207" width="135" height="98" as="geometry" />
+        </mxCell>
+        <mxCell id="w3" value="&lt;b style=&quot;font-size:12px&quot;&gt;3 · Silver job&lt;/b&gt;&lt;font color=&quot;#4A5563&quot;&gt;&lt;br&gt;Spark SQL: clean, type&lt;/font&gt;" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#7B4FC9;fontColor=#1F2933;fontSize=12;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="969" y="207" width="135" height="98" as="geometry" />
+        </mxCell>
+        <mxCell id="w4" value="&lt;b style=&quot;font-size:12px&quot;&gt;4 · Gold job&lt;/b&gt;&lt;font color=&quot;#4A5563&quot;&gt;&lt;br&gt;Spark SQL: marts&lt;/font&gt;" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#7B4FC9;fontColor=#1F2933;fontSize=12;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="1116" y="207" width="135" height="98" as="geometry" />
+        </mxCell>
+        <mxCell id="w5" value="&lt;b style=&quot;font-size:12px&quot;&gt;5 · Data quality&lt;/b&gt;&lt;font color=&quot;#4A5563&quot;&gt;&lt;br&gt;Glue DQ rules, stop on failure&lt;/font&gt;" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#7B4FC9;fontColor=#1F2933;fontSize=12;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="1263" y="207" width="135" height="98" as="geometry" />
+        </mxCell>
+        <mxCell id="landing" value="&lt;b style=&quot;font-size:14px&quot;&gt;Landing&lt;/b&gt;&lt;font color=&quot;#4A5563&quot;&gt;&lt;br&gt;CSV as received&lt;br&gt;by release&lt;br&gt;+ source checksums&lt;/font&gt;" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Helvetica;fillColor=#E8F4EA;strokeColor=#3F8F4E;fontColor=#1F2933;fontSize=12;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="535" y="395" width="200" height="145" as="geometry" />
+        </mxCell>
+        <mxCell id="bronze" value="&lt;b style=&quot;font-size:14px&quot;&gt;Bronze&lt;/b&gt;&lt;font color=&quot;#4A5563&quot;&gt;&lt;br&gt;Parquet, all text&lt;br&gt;one folder per table&lt;br&gt;+ lineage columns&lt;/font&gt;" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Helvetica;fillColor=#F6E3D3;strokeColor=#B87333;fontColor=#1F2933;fontSize=12;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="755" y="395" width="200" height="145" as="geometry" />
+        </mxCell>
+        <mxCell id="silver" value="&lt;b style=&quot;font-size:14px&quot;&gt;Silver&lt;/b&gt;&lt;font color=&quot;#4A5563&quot;&gt;&lt;br&gt;cleaned, typed,&lt;br&gt;renamed&lt;br&gt;(staging layer)&lt;/font&gt;" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Helvetica;fillColor=#EEF0F2;strokeColor=#8A939E;fontColor=#1F2933;fontSize=12;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="975" y="395" width="200" height="145" as="geometry" />
+        </mxCell>
+        <mxCell id="gold" value="&lt;b style=&quot;font-size:14px&quot;&gt;Gold&lt;/b&gt;&lt;font color=&quot;#4A5563&quot;&gt;&lt;br&gt;dimensions, facts,&lt;br&gt;marts for each&lt;br&gt;dashboard question&lt;/font&gt;" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Helvetica;fillColor=#FBF0CC;strokeColor=#C9A227;fontColor=#1F2933;fontSize=12;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="1195" y="395" width="200" height="145" as="geometry" />
+        </mxCell>
+        <mxCell id="catalog" value="&lt;b style=&quot;font-size:14px&quot;&gt;AWS Glue Data Catalog&lt;/b&gt;&lt;font color=&quot;#4A5563&quot;&gt;&lt;br&gt;databases cms_bronze · cms_silver · cms_gold&lt;br&gt;table schemas and partitions, registered by the jobs&lt;/font&gt;" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Helvetica;fillColor=#EEF2F7;strokeColor=#9AA4B2;fontColor=#1F2933;fontSize=12;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="515" y="600" width="420" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="athena" value="&lt;b style=&quot;font-size:14px&quot;&gt;Amazon Athena&lt;/b&gt;&lt;font color=&quot;#4A5563&quot;&gt;&lt;br&gt;workgroup cms_lakehouse · serverless SQL on S3&lt;br&gt;10 GB per-query cost cap&lt;/font&gt;" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Helvetica;fillColor=#EEF2F7;strokeColor=#9AA4B2;fontColor=#1F2933;fontSize=12;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="995" y="600" width="420" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="streamlit" value="&lt;b style=&quot;font-size:14px&quot;&gt;Streamlit Community Cloud&lt;/b&gt;&lt;font color=&quot;#4A5563&quot;&gt;&lt;br&gt;free hosting, deployed from GitHub&lt;br&gt;8 pages incl. Quality of Care&lt;br&gt;IAM user: read-only Athena&lt;br&gt;+ gold layer · keys in Streamlit secrets&lt;/font&gt;" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Helvetica;fillColor=#E6F0FB;strokeColor=#2F6DB5;fontColor=#1F2933;fontSize=12;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="1480" y="360" width="290" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="users" value="&lt;b style=&quot;font-size:14px&quot;&gt;Reviewers &amp; users&lt;/b&gt;&lt;font color=&quot;#4A5563&quot;&gt;&lt;br&gt;web browser&lt;/font&gt;" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#9AA4B2;fontColor=#1F2933;fontSize=12;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="1480" y="600" width="290" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="x0" value="&lt;b style=&quot;font-size:13px&quot;&gt;AWS IAM&lt;/b&gt;&lt;font color=&quot;#4A5563&quot;&gt;&lt;br&gt;least-privilege roles and users&lt;/font&gt;" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Helvetica;fillColor=#F7F9FC;strokeColor=#9AA4B2;fontColor=#1F2933;fontSize=12;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="290" y="845" width="272" height="68" as="geometry" />
+        </mxCell>
+        <mxCell id="x1" value="&lt;b style=&quot;font-size:13px&quot;&gt;AWS CloudFormation&lt;/b&gt;&lt;font color=&quot;#4A5563&quot;&gt;&lt;br&gt;infrastructure as code&lt;/font&gt;" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Helvetica;fillColor=#F7F9FC;strokeColor=#9AA4B2;fontColor=#1F2933;fontSize=12;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="575" y="845" width="272" height="68" as="geometry" />
+        </mxCell>
+        <mxCell id="x2" value="&lt;b style=&quot;font-size:13px&quot;&gt;Amazon CloudWatch&lt;/b&gt;&lt;font color=&quot;#4A5563&quot;&gt;&lt;br&gt;job logs, metrics, alerts&lt;/font&gt;" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Helvetica;fillColor=#F7F9FC;strokeColor=#9AA4B2;fontColor=#1F2933;fontSize=12;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="860" y="845" width="272" height="68" as="geometry" />
+        </mxCell>
+        <mxCell id="x3" value="&lt;b style=&quot;font-size:13px&quot;&gt;GitHub&lt;/b&gt;&lt;font color=&quot;#4A5563&quot;&gt;&lt;br&gt;code, SQL, templates, decisions&lt;/font&gt;" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Helvetica;fillColor=#F7F9FC;strokeColor=#9AA4B2;fontColor=#1F2933;fontSize=12;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="1145" y="845" width="272" height="68" as="geometry" />
+        </mxCell>
+        <mxCell id="footer1" value="Peter Rousseau · healthcare-metrics-aws · companion to healthcare-metrics-pipeline (Snowflake + dbt)" style="text;whiteSpace=wrap;html=1;fontFamily=Helvetica;align=left;verticalAlign=middle;fontSize=12;fontColor=#9AA4B2;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="935" width="800" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="footer2" value="Solid arrows: data flow · Dashed: orchestration, metadata, credentials, or query" style="text;whiteSpace=wrap;html=1;fontFamily=Helvetica;align=right;verticalAlign=middle;fontSize=12;fontColor=#9AA4B2;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="1165" y="935" width="600" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" value="Google Drive API · read-only service account" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#2F6DB5;strokeWidth=2;fontSize=11;fontStyle=2;fontColor=#2F6DB5;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.33;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="drive" target="w1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="credentials" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#C2457A;strokeWidth=2;fontSize=11;fontStyle=2;fontColor=#C2457A;labelBackgroundColor=#FFFFFF;dashed=1;dashPattern=6 5;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="secrets" target="w1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#7B4FC9;strokeWidth=1.5;fontSize=11;fontStyle=2;fontColor=#7B4FC9;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="w0" target="w1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#7B4FC9;strokeWidth=1.5;fontSize=11;fontStyle=2;fontColor=#7B4FC9;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="w1" target="w2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#7B4FC9;strokeWidth=1.5;fontSize=11;fontStyle=2;fontColor=#7B4FC9;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="w2" target="w3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#7B4FC9;strokeWidth=1.5;fontSize=11;fontStyle=2;fontColor=#7B4FC9;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="w3" target="w4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#7B4FC9;strokeWidth=1.5;fontSize=11;fontStyle=2;fontColor=#7B4FC9;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="w4" target="w5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" value="writes CSVs" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#3F8F4E;strokeWidth=2;fontSize=11;fontStyle=2;fontColor=#3F8F4E;labelBackgroundColor=#FFFFFF;exitX=0.2;exitY=1;exitDx=0;exitDy=0;entryX=0.83;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="w1" target="landing">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" value="runs jobs that write each layer" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#7B4FC9;strokeWidth=1.5;fontSize=11;fontStyle=2;fontColor=#7B4FC9;labelBackgroundColor=#FFFFFF;dashed=1;dashPattern=6 5;exitX=0.55;exitY=1;exitDx=0;exitDy=0;entryX=0.55;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="wf" target="lake">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#52606D;strokeWidth=2;fontSize=11;fontStyle=2;fontColor=#52606D;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="landing" target="bronze">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#52606D;strokeWidth=2;fontSize=11;fontStyle=2;fontColor=#52606D;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="bronze" target="silver">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#52606D;strokeWidth=2;fontSize=11;fontStyle=2;fontColor=#52606D;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="silver" target="gold">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" value="tables registered" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#52606D;strokeWidth=2;fontSize=11;fontStyle=2;fontColor=#52606D;labelBackgroundColor=#FFFFFF;dashed=1;dashPattern=6 5;exitX=0.23;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="lake" target="catalog">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e14" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#52606D;strokeWidth=2;fontSize=11;fontStyle=2;fontColor=#52606D;labelBackgroundColor=#FFFFFF;dashed=1;dashPattern=6 5;" edge="1" parent="1" source="catalog" target="athena">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e15" value="queries gold Parquet" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#52606D;strokeWidth=2;fontSize=11;fontStyle=2;fontColor=#52606D;labelBackgroundColor=#FFFFFF;dashed=1;dashPattern=6 5;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.77;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="athena" target="lake">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e16" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#52606D;strokeWidth=2;fontSize=11;fontStyle=2;fontColor=#52606D;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="users" target="streamlit">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e17" value="SQL over HTTPS" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#52606D;strokeWidth=2;fontSize=11;fontStyle=2;fontColor=#52606D;labelBackgroundColor=#FFFFFF;exitX=0;exitY=0.58;exitDx=0;exitDy=0;entryX=1;entryY=0.75;entryDx=0;entryDy=0;" edge="1" parent="1" source="streamlit" target="athena">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

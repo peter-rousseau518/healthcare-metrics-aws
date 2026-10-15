@@ -1,0 +1,140 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="960" viewBox="0 0 1800 960">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#52606D"/></marker></defs>
+<rect width="1800" height="960" fill="#F7F9FC"/>
+<text x="40" y="50" text-anchor="start" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="26" font-weight="700" fill="#1F2933">Healthcare Metrics on AWS: End-to-End Architecture</text>
+<text x="40" y="78" text-anchor="start" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="14" font-weight="400" fill="#4A5563">CMS nursing home data from Google Drive to a live dashboard: ingested, transformed, scheduled, and orchestrated with AWS Glue</text>
+<text x="130" y="118" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12" font-weight="700" fill="#7B8794">SOURCE</text>
+<text x="855" y="118" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12" font-weight="700" fill="#7B8794">AWS CLOUD</text>
+<text x="1625" y="118" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12" font-weight="700" fill="#7B8794">DASHBOARD &amp; USERS</text>
+<rect x="30" y="330" width="200" height="150" rx="10" fill="#FFFFFF" stroke="#9AA4B2" stroke-width="1.5"/>
+<text x="130.0" y="375.5" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="15" font-weight="700" fill="#1F2933">Google Drive</text>
+<text x="130.0" y="399.0" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12.5" fill="#4A5563">Peter's folder · 22 files</text>
+<text x="130.0" y="416.5" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12.5" fill="#4A5563">20 Care Compare CSVs</text>
+<text x="130.0" y="434.0" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12.5" fill="#4A5563">PBJ daily staffing CSV</text>
+<text x="130.0" y="451.5" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12.5" fill="#4A5563">data dictionary</text>
+<rect x="270" y="130" width="1170" height="650" rx="16" fill="#FFFFFF" stroke="#FF9900" stroke-width="2.5"/>
+<rect x="1290" y="130" width="150" height="30" rx="8" fill="#FF9900"/>
+<text x="1365" y="151" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="13" font-weight="700" fill="#FFFFFF">AWS (us-east-1)</text>
+<rect x="295" y="200" width="195" height="100" rx="10" fill="#FCE8F1" stroke="#C2457A" stroke-width="1.5"/>
+<text x="392.5" y="238.0" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="15" font-weight="700" fill="#1F2933">AWS Secrets Manager</text>
+<text x="392.5" y="261.5" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12.5" fill="#4A5563">Google service account</text>
+<text x="392.5" y="279.0" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12.5" fill="#4A5563">key (JSON)</text>
+<rect x="515" y="170" width="900" height="150" rx="12" fill="#F3EEFC" stroke="#7B4FC9" stroke-width="1.5"/>
+<text x="1030" y="193" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="15" font-weight="700" fill="#4B2A8C">AWS Glue Workflow: scheduling and orchestration</text>
+<rect x="528" y="207" width="135" height="98" rx="8" fill="#FFFFFF" stroke="#7B4FC9" stroke-width="1.2"/>
+<circle cx="595" cy="225" r="11" fill="#7B4FC9"/>
+<text x="595" y="229.5" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12" font-weight="700" fill="#FFFFFF">0</text>
+<text x="595" y="254" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="13" font-weight="700" fill="#1F2933">Schedule</text>
+<text x="595" y="273" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12" font-weight="400" fill="#4A5563">monthly cron</text>
+<text x="595" y="290" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12" font-weight="400" fill="#4A5563">trigger</text>
+<polyline points="663,256 675,256" fill="none" stroke="#7B4FC9" stroke-width="1.5" marker-end="url(#ah)"/>
+<rect x="675" y="207" width="135" height="98" rx="8" fill="#FFFFFF" stroke="#7B4FC9" stroke-width="1.2"/>
+<circle cx="742" cy="225" r="11" fill="#7B4FC9"/>
+<text x="742" y="229.5" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12" font-weight="700" fill="#FFFFFF">1</text>
+<text x="742" y="254" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="13" font-weight="700" fill="#1F2933">Ingest job</text>
+<text x="742" y="273" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12" font-weight="400" fill="#4A5563">Python · Drive API</text>
+<text x="742" y="290" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12" font-weight="400" fill="#4A5563">→ landing</text>
+<polyline points="810,256 822,256" fill="none" stroke="#7B4FC9" stroke-width="1.5" marker-end="url(#ah)"/>
+<rect x="822" y="207" width="135" height="98" rx="8" fill="#FFFFFF" stroke="#7B4FC9" stroke-width="1.2"/>
+<circle cx="889" cy="225" r="11" fill="#7B4FC9"/>
+<text x="889" y="229.5" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12" font-weight="700" fill="#FFFFFF">2</text>
+<text x="889" y="254" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="13" font-weight="700" fill="#1F2933">Bronze jobs ×21</text>
+<text x="889" y="273" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12" font-weight="400" fill="#4A5563">one per table</text>
+<text x="889" y="290" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12" font-weight="400" fill="#4A5563">CSV → Parquet</text>
+<polyline points="957,256 969,256" fill="none" stroke="#7B4FC9" stroke-width="1.5" marker-end="url(#ah)"/>
+<rect x="969" y="207" width="135" height="98" rx="8" fill="#FFFFFF" stroke="#7B4FC9" stroke-width="1.2"/>
+<circle cx="1036" cy="225" r="11" fill="#7B4FC9"/>
+<text x="1036" y="229.5" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12" font-weight="700" fill="#FFFFFF">3</text>
+<text x="1036" y="254" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="13" font-weight="700" fill="#1F2933">Silver job</text>
+<text x="1036" y="273" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12" font-weight="400" fill="#4A5563">Spark SQL</text>
+<text x="1036" y="290" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12" font-weight="400" fill="#4A5563">clean · type</text>
+<polyline points="1104,256 1116,256" fill="none" stroke="#7B4FC9" stroke-width="1.5" marker-end="url(#ah)"/>
+<rect x="1116" y="207" width="135" height="98" rx="8" fill="#FFFFFF" stroke="#7B4FC9" stroke-width="1.2"/>
+<circle cx="1183" cy="225" r="11" fill="#7B4FC9"/>
+<text x="1183" y="229.5" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12" font-weight="700" fill="#FFFFFF">4</text>
+<text x="1183" y="254" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="13" font-weight="700" fill="#1F2933">Gold job</text>
+<text x="1183" y="273" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12" font-weight="400" fill="#4A5563">Spark SQL</text>
+<text x="1183" y="290" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12" font-weight="400" fill="#4A5563">marts</text>
+<polyline points="1251,256 1263,256" fill="none" stroke="#7B4FC9" stroke-width="1.5" marker-end="url(#ah)"/>
+<rect x="1263" y="207" width="135" height="98" rx="8" fill="#FFFFFF" stroke="#7B4FC9" stroke-width="1.2"/>
+<circle cx="1330" cy="225" r="11" fill="#7B4FC9"/>
+<text x="1330" y="229.5" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12" font-weight="700" fill="#FFFFFF">5</text>
+<text x="1330" y="254" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="13" font-weight="700" fill="#1F2933">Data quality</text>
+<text x="1330" y="273" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12" font-weight="400" fill="#4A5563">Glue DQ rules</text>
+<text x="1330" y="290" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12" font-weight="400" fill="#4A5563">stop on failure</text>
+<rect x="515" y="350" width="900" height="210" rx="12" fill="#FAFBFD" stroke="#3F8F4E" stroke-width="1.5"/>
+<text x="965" y="375" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="15" font-weight="700" fill="#2E6B3A">Amazon S3: Lakehouse bucket (peter-cms-lakehouse-2026)</text>
+<rect x="535" y="395" width="200" height="145" rx="10" fill="#E8F4EA" stroke="#3F8F4E" stroke-width="1.5"/>
+<text x="635.0" y="446.75" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="15" font-weight="700" fill="#1F2933">Landing</text>
+<text x="635.0" y="470.25" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12.5" fill="#4A5563">CSV as received</text>
+<text x="635.0" y="487.75" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12.5" fill="#4A5563">by release</text>
+<text x="635.0" y="505.25" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12.5" fill="#4A5563">+ source checksums</text>
+<polyline points="735,467 753,467" fill="none" stroke="#52606D" stroke-width="2" marker-end="url(#ah)"/>
+<rect x="755" y="395" width="200" height="145" rx="10" fill="#F6E3D3" stroke="#B87333" stroke-width="1.5"/>
+<text x="855.0" y="446.75" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="15" font-weight="700" fill="#1F2933">Bronze</text>
+<text x="855.0" y="470.25" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12.5" fill="#4A5563">Parquet, all text</text>
+<text x="855.0" y="487.75" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12.5" fill="#4A5563">one folder per table</text>
+<text x="855.0" y="505.25" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12.5" fill="#4A5563">+ lineage columns</text>
+<polyline points="955,467 973,467" fill="none" stroke="#52606D" stroke-width="2" marker-end="url(#ah)"/>
+<rect x="975" y="395" width="200" height="145" rx="10" fill="#EEF0F2" stroke="#8A939E" stroke-width="1.5"/>
+<text x="1075.0" y="446.75" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="15" font-weight="700" fill="#1F2933">Silver</text>
+<text x="1075.0" y="470.25" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12.5" fill="#4A5563">cleaned, typed,</text>
+<text x="1075.0" y="487.75" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12.5" fill="#4A5563">renamed</text>
+<text x="1075.0" y="505.25" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12.5" fill="#4A5563">(staging layer)</text>
+<polyline points="1175,467 1193,467" fill="none" stroke="#52606D" stroke-width="2" marker-end="url(#ah)"/>
+<rect x="1195" y="395" width="200" height="145" rx="10" fill="#FBF0CC" stroke="#C9A227" stroke-width="1.5"/>
+<text x="1295.0" y="446.75" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="15" font-weight="700" fill="#1F2933">Gold</text>
+<text x="1295.0" y="470.25" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12.5" fill="#4A5563">dimensions, facts,</text>
+<text x="1295.0" y="487.75" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12.5" fill="#4A5563">marts for each</text>
+<text x="1295.0" y="505.25" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12.5" fill="#4A5563">dashboard question</text>
+<polyline points="1010,307 1010,348" fill="none" stroke="#7B4FC9" stroke-width="1.5" stroke-dasharray="5,4" marker-end="url(#ah)"/>
+<text x="1018" y="335" text-anchor="start" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="11.5" font-weight="400" fill="#7B4FC9" font-style="italic">runs jobs that write each layer</text>
+<rect x="515" y="600" width="420" height="105" rx="10" fill="#EEF2F7" stroke="#9AA4B2" stroke-width="1.5"/>
+<text x="725.0" y="640.5" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="15" font-weight="700" fill="#1F2933">AWS Glue Data Catalog</text>
+<text x="725.0" y="664.0" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12.5" fill="#4A5563">databases cms_bronze · cms_silver · cms_gold</text>
+<text x="725.0" y="681.5" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12.5" fill="#4A5563">table schemas and partitions, registered by the jobs</text>
+<rect x="995" y="600" width="420" height="105" rx="10" fill="#EEF2F7" stroke="#9AA4B2" stroke-width="1.5"/>
+<text x="1205.0" y="640.5" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="15" font-weight="700" fill="#1F2933">Amazon Athena</text>
+<text x="1205.0" y="664.0" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12.5" fill="#4A5563">workgroup cms_lakehouse · serverless SQL on S3</text>
+<text x="1205.0" y="681.5" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12.5" fill="#4A5563">10 GB per-query cost cap</text>
+<polyline points="725,562 725,598" fill="none" stroke="#52606D" stroke-width="2" stroke-dasharray="5,4" marker-end="url(#ah)"/>
+<text x="733" y="584" text-anchor="start" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="11.5" font-weight="400" fill="#4A5563" font-style="italic">tables registered</text>
+<polyline points="935,652 993,652" fill="none" stroke="#52606D" stroke-width="2" stroke-dasharray="5,4" marker-end="url(#ah)"/>
+<polyline points="1205,598 1205,562" fill="none" stroke="#52606D" stroke-width="2" stroke-dasharray="5,4" marker-end="url(#ah)"/>
+<text x="1213" y="584" text-anchor="start" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="11.5" font-weight="400" fill="#4A5563" font-style="italic">queries gold Parquet</text>
+<polyline points="230,380 250,380 250,150 780,150 780,205" fill="none" stroke="#2F6DB5" stroke-width="2" marker-end="url(#ah)"/>
+<text x="258" y="146" text-anchor="start" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="11.5" font-weight="400" fill="#2F6DB5" font-style="italic">Google Drive API · read-only service account</text>
+<polyline points="392,200 392,163 705,163 705,205" fill="none" stroke="#C2457A" stroke-width="2" stroke-dasharray="5,4" marker-end="url(#ah)"/>
+<text x="400" y="180" text-anchor="start" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="11.5" font-weight="400" fill="#C2457A" font-style="italic">credentials</text>
+<polyline points="700,307 700,393" fill="none" stroke="#3F8F4E" stroke-width="2" marker-end="url(#ah)"/>
+<text x="707" y="342" text-anchor="start" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="11.5" font-weight="400" fill="#3F8F4E" font-style="italic">writes CSVs</text>
+<rect x="1480" y="360" width="290" height="190" rx="10" fill="#E6F0FB" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="1625.0" y="416.75" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="15" font-weight="700" fill="#1F2933">Streamlit Community Cloud</text>
+<text x="1625.0" y="440.25" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12.5" fill="#4A5563">free hosting, deployed from GitHub</text>
+<text x="1625.0" y="457.75" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12.5" fill="#4A5563">8 pages incl. Quality of Care</text>
+<text x="1625.0" y="475.25" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12.5" fill="#4A5563">IAM user: read-only Athena</text>
+<text x="1625.0" y="492.75" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12.5" fill="#4A5563">+ gold layer · keys in</text>
+<text x="1625.0" y="510.25" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12.5" fill="#4A5563">Streamlit secrets</text>
+<rect x="1480" y="600" width="290" height="105" rx="10" fill="#FFFFFF" stroke="#9AA4B2" stroke-width="1.5"/>
+<text x="1625.0" y="649.25" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="15" font-weight="700" fill="#1F2933">Reviewers &amp; users</text>
+<text x="1625.0" y="672.75" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12.5" fill="#4A5563">web browser</text>
+<polyline points="1625,598 1625,552" fill="none" stroke="#52606D" stroke-width="2" marker-end="url(#ah)"/>
+<polyline points="1478,470 1458,470 1458,680 1417,680" fill="none" stroke="#52606D" stroke-width="2" marker-end="url(#ah)"/>
+<text transform="translate(1452,575) rotate(-90)" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11.5" font-style="italic" fill="#4A5563">SQL over HTTPS</text>
+<rect x="270" y="805" width="1170" height="120" rx="14" fill="#FFFFFF" stroke="#CBD2D9" stroke-width="1.5"/>
+<text x="290" y="832" text-anchor="start" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12" font-weight="700" fill="#7B8794">CROSS-CUTTING</text>
+<rect x="290" y="845" width="272" height="68" rx="10" fill="#F7F9FC" stroke="#9AA4B2" stroke-width="1.5"/>
+<text x="426.0" y="875.25" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="13.5" font-weight="700" fill="#1F2933">AWS IAM</text>
+<text x="426.0" y="898.25" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12" fill="#4A5563">least-privilege roles and users</text>
+<rect x="575" y="845" width="272" height="68" rx="10" fill="#F7F9FC" stroke="#9AA4B2" stroke-width="1.5"/>
+<text x="711.0" y="875.25" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="13.5" font-weight="700" fill="#1F2933">AWS CloudFormation</text>
+<text x="711.0" y="898.25" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12" fill="#4A5563">infrastructure as code</text>
+<rect x="860" y="845" width="272" height="68" rx="10" fill="#F7F9FC" stroke="#9AA4B2" stroke-width="1.5"/>
+<text x="996.0" y="875.25" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="13.5" font-weight="700" fill="#1F2933">Amazon CloudWatch</text>
+<text x="996.0" y="898.25" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12" fill="#4A5563">job logs, metrics, alerts</text>
+<rect x="1145" y="845" width="272" height="68" rx="10" fill="#F7F9FC" stroke="#9AA4B2" stroke-width="1.5"/>
+<text x="1281.0" y="875.25" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="13.5" font-weight="700" fill="#1F2933">GitHub</text>
+<text x="1281.0" y="898.25" text-anchor="middle" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12" fill="#4A5563">code, SQL, templates, decisions</text>
+<text x="40" y="948" text-anchor="start" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12" font-weight="400" fill="#9AA4B2">Peter Rousseau · healthcare-metrics-aws · companion to healthcare-metrics-pipeline (Snowflake + dbt)</text>
+<text x="1765" y="948" text-anchor="end" font-family="Helvetica, Arial, 'Liberation Sans', sans-serif" font-size="12" font-weight="400" fill="#9AA4B2">Solid arrows: data flow · Dashed: orchestration, metadata, credentials, or query</text>
+</svg>

@@ -1,0 +1,159 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: >
+  Healthcare Metrics on AWS - foundation. Lakehouse bucket (landing, bronze,
+  silver, gold, scripts, Athena results), Athena workgroup, Glue databases,
+  the Secrets Manager secret for the Google service account key, and the IAM
+  role that Glue jobs run as.
+
+Parameters:
+  LakehouseBucketName:
+    Type: String
+    Default: peter-cms-lakehouse-2026
+    Description: New bucket for all data this project ingests and produces. Must be globally unique.
+
+Resources:
+
+  # --- Storage ------------------------------------------------------------------
+
+  LakehouseBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      BucketName: !Ref LakehouseBucketName
+      VersioningConfiguration:
+        Status: Enabled
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        IgnorePublicAcls: true
+        BlockPublicPolicy: true
+        RestrictPublicBuckets: true
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      LifecycleConfiguration:
+        Rules:
+          - Id: ExpireAthenaResults
+            Status: Enabled
+            Prefix: athena-results/
+            ExpirationInDays: 30
+          - Id: ExpireOldVersions
+            Status: Enabled
+            NoncurrentVersionExpiration:
+              NoncurrentDays: 30
+      Tags:
+        - Key: project
+          Value: healthcare-metrics-aws
+
+  # --- Secrets ------------------------------------------------------------------
+
+  GoogleServiceAccountSecret:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Name: cms/google-drive-service-account
+      Description: >
+        Google service account key (JSON) the ingestion job uses to read the
+        Drive folder. Created with a placeholder; paste the real key in the
+        Secrets Manager console after deployment.
+      SecretString: '{"placeholder": "replace with the service account JSON key"}'
+      Tags:
+        - Key: project
+          Value: healthcare-metrics-aws
+
+  # --- Catalog ------------------------------------------------------------------
+
+  BronzeDatabase:
+    Type: AWS::Glue::Database
+    Properties:
+      CatalogId: !Ref AWS::AccountId
+      DatabaseInput:
+        Name: cms_bronze
+        Description: CMS files as received, converted to Parquet, one table per source file.
+
+  SilverDatabase:
+    Type: AWS::Glue::Database
+    Properties:
+      CatalogId: !Ref AWS::AccountId
+      DatabaseInput:
+        Name: cms_silver
+        Description: Cleaned, typed, renamed tables (staging equivalent).
+
+  GoldDatabase:
+    Type: AWS::Glue::Database
+    Properties:
+      CatalogId: !Ref AWS::AccountId
+      DatabaseInput:
+        Name: cms_gold
+        Description: Business-ready marts for the dashboard.
+
+  # --- Query engine -------------------------------------------------------------
+
+  AthenaWorkGroup:
+    Type: AWS::Athena::WorkGroup
+    Properties:
+      Name: cms_lakehouse
+      Description: Queries for the CMS lakehouse. 10 GB scan cap per query as a cost guard.
+      State: ENABLED
+      RecursiveDeleteOption: true
+      WorkGroupConfiguration:
+        EnforceWorkGroupConfiguration: true
+        PublishCloudWatchMetricsEnabled: true
+        BytesScannedCutoffPerQuery: 10737418240
+        EngineVersion:
+          SelectedEngineVersion: "Athena engine version 3"
+        ResultConfiguration:
+          OutputLocation: !Sub "s3://${LakehouseBucketName}/athena-results/"
+          EncryptionConfiguration:
+            EncryptionOption: SSE_S3
+
+  # --- IAM: role Glue jobs run as ---------------------------------------------------
+
+  GlueJobRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: cms-lakehouse-glue-role
+      Description: Glue jobs. Read/write on the lakehouse bucket; read the Google service account secret.
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: glue.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSGlueServiceRole
+      Policies:
+        - PolicyName: lakehouse-read-write
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:PutObject
+                  - s3:DeleteObject
+                Resource: !Sub "arn:aws:s3:::${LakehouseBucketName}/*"
+              - Effect: Allow
+                Action:
+                  - s3:ListBucket
+                  - s3:GetBucketLocation
+                Resource: !Sub "arn:aws:s3:::${LakehouseBucketName}"
+        - PolicyName: read-google-service-account-secret
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - secretsmanager:GetSecretValue
+                Resource: !Ref GoogleServiceAccountSecret
+
+Outputs:
+  LakehouseBucket:
+    Value: !Ref LakehouseBucket
+  AthenaWorkGroup:
+    Value: !Ref AthenaWorkGroup
+  GlueJobRoleArn:
+    Value: !GetAtt GlueJobRole.Arn
+  GoogleServiceAccountSecretArn:
+    Value: !Ref GoogleServiceAccountSecret

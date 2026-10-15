@@ -1,0 +1,18 @@
+# Data and local artifacts
+*.csv
+*.parquet
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+
+# Credentials and secrets: never commit
+.env
+*.pem
+*.p8
+*service-account*.json
+credentials.json
+token.json
+client_secret*.json
+**/.streamlit/secrets.toml
+secrets.toml
