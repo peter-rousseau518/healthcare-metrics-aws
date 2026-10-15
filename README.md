@@ -16,7 +16,7 @@ An end-to-end, fully scheduled data pipeline that pulls CMS nursing home data fr
 | What are average staffing levels by state and facility type? | Averages for every state, with facility type defined three ways: ownership, provider type, and hospital-based vs. freestanding. | Staffing by state & type tab |
 | Is nurse turnover higher where staffing is more strained? | Turnover is compared against **reliance on agency nurses** and weekend staffing drop, using rank correlation and turnover averages by strain level. | Strain vs. turnover tab |
 | What trends appear in short-stay vs. long-stay care? | Length of stay isn't in the data; quality measures are trended for **short-stay vs. long-stay** residents across four quarters. | Short- vs. long-stay tab |
-| How do readmissions, complaints, and staffing relate? | 30-day readmission rates by facility and state, **residents per nurse vs. complaint rate**, and **nurse staffing vs. readmissions**, each with rank correlation and averages by staffing level. | Quality of care tab (new in this project) |
+| How do readmissions, complaints, and staffing relate? | 30-day readmission rates by facility and state, **residents per nurse vs. complaint rate**, and **nurse staffing vs. readmissions**, each with rank correlation and averages by staffing level. | Quality of care tab |
 
 The Quality of Care tab deliberately leaves out two requested metrics the data can't support: patient satisfaction (nursing home Care Compare has no satisfaction survey) and readmissions by diagnosis (requires patient-level claims data that isn't public). See [ADR-015](docs/decisions.md).
 
